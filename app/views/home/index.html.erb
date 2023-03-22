@@ -1,0 +1,45 @@
+<h1>Home#index</h1>
+
+<%# 替换当前页（直接修改历史堆栈最后一个） %>
+<a href=<%= new_home_path %> data-turbo-action="replace" data-turbo-method="get" data-turbo-confirm="确认吗?">替换当前页（直接修改历史堆栈最后一个）</a>
+<%# 跳转下一页（入栈） %>
+<a href=<%= new_home_path %> data-turbo-action="advance">跳转下一页（入栈）</a>
+<%# 不使用turbo %>
+<a href=<%= new_home_path %> data-turbo="false" method="post">不使用turbo</a>
+
+
+<turbo-frame id="message">
+  <h1>My message title</h1>
+  <p>My message content</p>
+  <a href=<%= new_home_path %>>点击替换</a>
+</turbo-frame>
+
+
+<%# loading="lazy" lazy=true 可以让他变成懒加载 %>
+<turbo-frame id="later-load" src=<%= messages_home_index_path %> >
+</turbo-frame>
+
+
+
+<div id="append">
+
+</div>
+
+<div id="alert-area">
+
+</div>
+
+<div id="replace">
+
+</div>
+<%= link_to '添加 stream', stream_home_index_path, data: { 'turbo-method' => :post }  %>
+
+<script>
+  document.addEventListener("turbo:before-render", async (event) => {
+    event.preventDefault()
+
+    console.log("turbo:before-render")
+
+    event.detail.resume()
+  })
+</script>
